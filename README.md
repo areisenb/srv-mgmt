@@ -16,6 +16,7 @@ which serves the header and navigation menu
 
 # Example GUI
 this is how it looks at home for me
+![Screenshot-web](docs/screenshot-web.png "Screenshot")
 
 # Config
 pls check /config-template for the easiest config file in yaml format. I do not want to expose my working example here, but 
