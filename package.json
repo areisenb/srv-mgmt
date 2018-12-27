@@ -1,0 +1,20 @@
+{
+  "name": "srv-mgmt",
+  "version": "0.1.0",
+  "description": "small application to manage several servers in a typical home network",
+  "main": "srv-mgmt.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.3",
+    "express": "^4.16.4",
+    "log4js": "^3.0.6",
+    "ping": "^0.2.2",
+    "swagger-stats": "^0.95.6",
+    "swagger-tools": "^0.10.4",
+    "wake_on_lan": "^1.0.0"
+  }
+}

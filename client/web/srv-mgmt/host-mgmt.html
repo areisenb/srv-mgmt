@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+      <meta name="author" content="Andreas Reisenbauer">
+      <link rel="icon" href="../../favicon.ico">
+      
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.7.0/bootstrap-table.min.css">
+  
+  
+      <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>        
+      <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.7.0/bootstrap-table.min.js"></script>
+      <!-- Latest compiled and minified Locales -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.7.0/locale/bootstrap-table-en-US.min.js"></script>
+  
+    <meta name="description" content="Management of the hosts">
+    <title>Network Management</title>    
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+          <div class="col-lg-1">
+          </div>
+    
+          <div class="col-lg-6">
+            <table id="tblHosts" data-toggle="table" data-url="/api/srv-mgmt/hosts" data-striped=true >
+              <thead>
+                <tr>
+                  <th data-field="name" data-valign="middle">Host Name</th>
+                  <th data-field="ip" data-valign="middle">Address</th>
+                  <th data-field="up" data-halign="center" data-formatter="stateFormatter">State</th>
+                  <th data-field="desc" data-valign="middle">Description</th>
+                </tr>
+              </thead>
+            </table>  
+          </div>
+        </div>
+    </div>
+
+ 
+    <script>
+    "use strict";
+    
+    function stateFormatter(value, row, index) {
+      if (typeof value === 'undefined') {
+        return '-';
+      } else if (value) {
+        return '<img src="assets/icons/powerON.png" alt="Power On" >';
+      } else if (row.wol == true) {
+        return '<a href="#"><img src="assets/icons/powerOFF.png" alt="Power Off" title="Wake On"></a>';
+      } else
+        return '<img src="assets/icons/powerNO.png" alt="Power Off" >';
+    }
+    
+    $(function() {
+      setInterval(function(){ 
+        //console.log("fetch new data");
+        $('#tblHosts').bootstrapTable('refresh', {silent: true});
+      }, 5000);
+
+      $('#tblHosts').on('click-row.bs.table', function (e, row, $element) {
+        console.log("Select Host: ", row.name);
+        $.ajax({
+          url: '/api/srv-mgmt/hosts/' + row.name + '/wake',
+          type: 'PUT',
+          success: function(data) {
+            console.log('WOL sent to host: ', row.name);
+          },
+          error: function (data, textStatus, errorThrown) {
+            alert('cannot wake ' + row.name);
+          }
+        });        
+      });      
+    });
+
+
+    </script>
+
+
+    
+  </body>
+ </html>

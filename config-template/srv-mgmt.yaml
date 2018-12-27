@@ -1,0 +1,16 @@
+# this is just an example config file
+# pls copy to /config and populate with your
+# useful data
+hosts:
+  anyServer:
+    ip: "10.0.0.1"
+    type: "server"
+    desc: "This is just an example Server"
+    wol: true
+    eth: "00:50:56:3F:12:34"
+  anyClient:
+    ip: "10.0.0.20"
+    type: "client"
+    wol: false
+    eth: "00:50:56:3F:34:56"
+    desc: "this is just an example client"
